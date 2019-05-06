@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/ideaListFragment"
         android:name="uk.co.markthomasstevenson.ideame.views.idealist.IdeaListFragment"
-        android:label="fragment_idea_list"
+        android:label="@string/idea_list_title"
         tools:layout="@layout/fragment_idea_list" >
         <action android:id="@+id/action_ideaListFragment_to_createIdeaFragment"
                 app:destination="@id/createIdeaFragment"
@@ -17,5 +17,12 @@
     </fragment>
     <fragment android:id="@+id/createIdeaFragment"
               android:name="uk.co.markthomasstevenson.ideame.views.createidea.CreateIdeaFragment"
-              android:label="fragment_create_idea" tools:layout="@layout/fragment_create_idea"/>
+              android:label="@string/idea_creation_title"
+              tools:layout="@layout/fragment_create_idea">
+        <action
+            android:id="@+id/action_createIdeaFragment_to_ideaListFragment"
+            app:destination="@id/ideaListFragment"
+            app:popUpTo="@id/ideaListFragment"
+            app:popUpToInclusive="true"/>
+    </fragment>
 </navigation>
