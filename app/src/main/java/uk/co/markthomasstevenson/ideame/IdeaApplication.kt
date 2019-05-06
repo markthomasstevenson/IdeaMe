@@ -1,10 +1,11 @@
 package uk.co.markthomasstevenson.ideame
 
 import android.app.Application
+import androidx.multidex.MultiDexApplication
 import io.realm.Realm
 import io.realm.RealmConfiguration
 
-class IdeaApplication : Application() {
+class IdeaApplication : MultiDexApplication() {
     override fun onCreate() {
         super.onCreate()
         Realm.init(this)

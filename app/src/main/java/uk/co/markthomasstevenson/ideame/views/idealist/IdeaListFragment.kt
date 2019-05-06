@@ -8,13 +8,14 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.fragment_idea_list.*
 
 import uk.co.markthomasstevenson.ideame.R
-import uk.co.markthomasstevenson.ideame.viewmodels.IdeaListViewModel
+import uk.co.markthomasstevenson.ideame.viewmodels.IdeaViewModel
 
 class IdeaListFragment : Fragment() {
-    lateinit var viewModel: IdeaListViewModel
+    lateinit var viewModel: IdeaViewModel
     private lateinit var adapter: IdeaListAdapter
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -23,11 +24,12 @@ class IdeaListFragment : Fragment() {
         adapter = IdeaListAdapter{
             itemClicked(it)
         }
+        recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.adapter = adapter
 
-        viewModel = ViewModelProviders.of(this).get(IdeaListViewModel::class.java)
+        viewModel = ViewModelProviders.of(this).get(IdeaViewModel::class.java)
         viewModel.getIdeas().observe(this, Observer {
-            adapter.updateItems(ArrayList(it.map { idea -> IdeaListModel(idea.id, idea.title, idea.elevatorPitch)}))
+            adapter.updateItems(ArrayList(it.map { idea -> IdeaListModel(idea.id, idea.title, idea.elevatorPitch) }))
         })
     }
 

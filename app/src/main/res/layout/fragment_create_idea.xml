@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -9,20 +9,31 @@
             android:layout_height="wrap_content"
             android:gravity="center_vertical">
         <TextView
+            android:id="@+id/tv_title_about"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/create_idea_about"
+            android:layout_marginStart="20dp"
+            android:textStyle="bold"/>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/et_title_container"
+            android:layout_below="@id/tv_title_about"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp">
+            <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/tv_title"
+                android:inputType="text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="40sp"
-                android:gravity="center_horizontal"
-                android:textColor="@color/squid_ink"
-                android:textStyle="bold"
-                android:layout_marginTop="60dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp"
-                android:text="Create New Idea"/>
+                android:hint="@string/create_idea_title"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
         <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/et_elevatorPitch_container"
-                android:layout_below="@id/tv_title"
+                android:layout_below="@id/et_title_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
@@ -32,16 +43,44 @@
                     android:inputType="textMultiLine"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Elevator Pitch"/>
+                    android:hint="@string/create_idea_elevator_pitch"/>
         </com.google.android.material.textfield.TextInputLayout>
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/snorlax"
+            android:layout_below="@id/et_elevatorPitch_container"/>
+
         <LinearLayout
-                android:layout_below="@id/et_elevatorPitch_container"
-                android:id="@+id/functionality_container"
-                android:layout_width="match_parent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:orientation="horizontal"
+            android:layout_below="@id/et_elevatorPitch_container"
+            android:id="@+id/tv_title_func_container">
+            <TextView
+                android:id="@+id/tv_title_func"
+                android:layout_weight="3"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
-            <include layout="@layout/card_functionality" />
+                android:text="@string/create_idea_title_func"
+                android:layout_marginStart="20dp"
+                android:textStyle="bold"/>
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_add_functionality"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:text="@string/create_idea_add_func"/>
         </LinearLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:nestedScrollingEnabled="false"
+            android:id="@+id/recyclerView"/>
     </RelativeLayout>
-</ScrollView>
+</androidx.core.widget.NestedScrollView>
