@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/ideaListFragment">
+
+    <fragment
+        android:id="@+id/ideaListFragment"
+        android:name="uk.co.markthomasstevenson.ideame.views.idealist.IdeaListFragment"
+        android:label="fragment_idea_list"
+        tools:layout="@layout/fragment_idea_list" >
+        <action android:id="@+id/action_ideaListFragment_to_createIdeaFragment"
+                app:destination="@id/createIdeaFragment"
+                app:enterAnim="@anim/nav_default_enter_anim"
+                app:exitAnim="@anim/nav_default_exit_anim"/>
+    </fragment>
+    <fragment android:id="@+id/createIdeaFragment"
+              android:name="uk.co.markthomasstevenson.ideame.views.createidea.CreateIdeaFragment"
+              android:label="fragment_create_idea" tools:layout="@layout/fragment_create_idea"/>
+</navigation>
