@@ -6,7 +6,8 @@ import java.util.*
 
 open class Functionality : RealmObject() {
     @PrimaryKey
-    var id = UUID.fromString("").toString()
+    var id = UUID.randomUUID().toString()
     var name = ""
     var version = ""
+    var ideaId = ""
 }

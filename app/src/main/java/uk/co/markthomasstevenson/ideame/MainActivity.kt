@@ -1,19 +1,19 @@
 package uk.co.markthomasstevenson.ideame
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Toast
-import android.widget.Toolbar
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.NavigationUI.setupWithNavController
 import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat
 import kotlinx.android.synthetic.main.activity_main.*
+import uk.co.markthomasstevenson.ideame.viewmodels.IdeaViewModel
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : BaseActivity() {
 
+    private lateinit var viewModel: IdeaViewModel
     private var plusToTick: AnimatedVectorDrawableCompat? = null
     private var tickToPlus: AnimatedVectorDrawableCompat? = null
     private var showingPlus = true
@@ -22,26 +22,40 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        setStatusBar(R.color.snorlax)
 
-        val navController = findNavController(nav_host_fragment)
+        navController = findNavController(nav_host_fragment)
         val appBarConfiguration =  AppBarConfiguration.Builder(navController.graph).build()
         setupWithNavController(toolbar, navController, appBarConfiguration)
 
+        viewModel = ViewModelProviders.of(this).get(IdeaViewModel::class.java)
+
         plusToTick = AnimatedVectorDrawableCompat.create(baseContext, R.drawable.plustotick)
         tickToPlus = AnimatedVectorDrawableCompat.create(baseContext, R.drawable.ticktoplus)
+        viewModel.watchForNavigateEnabled().observe(this, Observer {
+             morph()
+        })
+
         fab.setImageDrawable(plusToTick)
         fab.setOnClickListener{
-            if(showingPlus) {
-                navController.navigate(R.id.action_ideaListFragment_to_createIdeaFragment)
-            } else {
-                navController.navigate(R.id.action_createIdeaFragment_to_ideaListFragment)
-            }
-            morph()
+            viewModel.fabClicked(showingPlus)
         }
+
         showingPlus = true
     }
 
+    override fun onNavigateUp(): Boolean {
+        viewModel.fabClicked(showingPlus)
+        return super.onNavigateUp()
+    }
+
     fun morph() {
+        if(showingPlus) {
+            navController.navigate(R.id.action_ideaListFragment_to_createIdeaFragment)
+        } else {
+            navController.navigate(R.id.action_createIdeaFragment_to_ideaListFragment)
+        }
+
         val drawable = if (showingPlus) plusToTick else tickToPlus
         fab.setImageDrawable(drawable)
         drawable?.start()

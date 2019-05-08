@@ -2,6 +2,7 @@ package uk.co.markthomasstevenson.ideame.viewmodels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import io.realm.Realm
 import io.realm.RealmResults
 import uk.co.markthomasstevenson.ideame.data.ideaDao
@@ -11,6 +12,9 @@ import java.util.*
 
 
 class IdeaViewModel : ViewModel() {
+    private var fabWasClickedToCreate = MutableLiveData<Boolean>()
+    private var navigateWasEnabled = MutableLiveData<Boolean>()
+
     val realm: Realm by lazy {
         Realm.getDefaultInstance()
     }
@@ -23,17 +27,21 @@ class IdeaViewModel : ViewModel() {
         return realm.ideaDao().getOrCreateIdea(id)
     }
 
-    fun getFunctionalities(id: String): LiveData<RealmResults<Functionality>> {
-        return realm.ideaDao().getFunctionalities(id)
+    fun deleteIdea(ideaId: String) {
+        realm.ideaDao().deleteIdea(ideaId)
+    }
+
+    fun getFunctionalities(ideaId: String): LiveData<RealmResults<Functionality>> {
+        return realm.ideaDao().getFunctionalities(ideaId)
     }
 
     fun getFunctionality(id: String): Functionality? {
         return realm.ideaDao().getFunctionality(id)
     }
 
-    fun addFunctionality(): String {
+    fun addFunctionality(ideaId: String): String {
         val id = UUID.randomUUID().toString()
-        realm.ideaDao().addFunctionality(id)
+        realm.ideaDao().addFunctionality(ideaId, id)
         return id
     }
 
@@ -57,7 +65,27 @@ class IdeaViewModel : ViewModel() {
     }
 
     fun updateIdea(id: String, title: String, elevatorPitch: String) {
-        val idea = getOrCreateIdea(id)
         realm.ideaDao().updateIdea(id, title, elevatorPitch)
+    }
+
+    fun watchForNavigateEnabled() : LiveData<Boolean> {
+        return navigateWasEnabled
+    }
+
+    fun enableNavigation() {
+        val currentValue = navigateWasEnabled.value?: true
+        navigateWasEnabled.value = !currentValue
+    }
+
+    fun watchFabWasClickedToCreate() : LiveData<Boolean> {
+        return fabWasClickedToCreate
+    }
+
+    fun fabClicked(toCreate: Boolean) {
+        fabWasClickedToCreate.value = toCreate
+        if(toCreate) {
+            navigateWasEnabled.value = true
+            return
+        }
     }
 }

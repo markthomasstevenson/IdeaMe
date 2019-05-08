@@ -1,17 +1,21 @@
 package uk.co.markthomasstevenson.ideame.views.idealist
 
+import android.content.DialogInterface
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.fragment_idea_list.*
 
 import uk.co.markthomasstevenson.ideame.R
+import uk.co.markthomasstevenson.ideame.misc.SwipeToDeleteHandler
 import uk.co.markthomasstevenson.ideame.viewmodels.IdeaViewModel
 
 class IdeaListFragment : Fragment() {
@@ -26,6 +30,26 @@ class IdeaListFragment : Fragment() {
         }
         recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.adapter = adapter
+        val itemTouchHelper = ItemTouchHelper(SwipeToDeleteHandler(context!!) {
+            it.itemId.let { ideaId ->
+                val idea = viewModel.getOrCreateIdea(ideaId)
+                AlertDialog.Builder(context!!)
+                    .setTitle(getString(R.string.dialog_delete_idea))
+                    .setMessage(getString(R.string.dialog_delete_idea_message, idea.title))
+                    .setPositiveButton(R.string.dialog_sure) { dialog, _ ->
+                        adapter.notifyItemRemoved(it.adapterPosition)
+                        viewModel.deleteIdea(ideaId)
+                        dialog.dismiss()
+                    }
+                    .setNegativeButton(R.string.dialog_no) { dialog, _ ->
+                        adapter.notifyItemChanged(it.adapterPosition)
+                        dialog.dismiss()
+                    }
+                    .setCancelable(false)
+                    .show()
+            }
+        })
+        itemTouchHelper.attachToRecyclerView(recyclerView)
 
         viewModel = ViewModelProviders.of(this).get(IdeaViewModel::class.java)
         viewModel.getIdeas().observe(this, Observer {

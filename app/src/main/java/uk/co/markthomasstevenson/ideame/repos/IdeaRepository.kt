@@ -6,7 +6,6 @@ import io.realm.RealmResults
 import uk.co.markthomasstevenson.ideame.data.asLiveData
 import uk.co.markthomasstevenson.ideame.model.Functionality
 import uk.co.markthomasstevenson.ideame.model.Idea
-import java.util.*
 
 class IdeaRepository(val realm: Realm) {
     fun getIdeas(): LiveData<RealmResults<Idea>> {
@@ -30,15 +29,19 @@ class IdeaRepository(val realm: Realm) {
         }
     }
 
-    fun getFunctionalities(id: String): LiveData<RealmResults<Functionality>> {
-        return realm.where(Functionality::class.java).equalTo("id", id).findAllAsync().asLiveData()
+    fun getFunctionalities(ideaId: String): LiveData<RealmResults<Functionality>> {
+        return realm.where(Functionality::class.java).equalTo("ideaId", ideaId).findAllAsync().asLiveData()
     }
 
-    fun addFunctionality(id: String) {
+    fun addFunctionality(ideaId: String, id: String) {
         realm.executeTransaction {
             val functionality = Functionality()
             functionality.id = id
+            functionality.ideaId = ideaId
             it.copyToRealmOrUpdate(functionality)
+            val idea = it.where(Idea::class.java).equalTo("id", ideaId).findFirst()
+            idea?.coreFunctionality?.add(functionality)
+            it.copyToRealmOrUpdate(idea!!)
         }
     }
 
@@ -65,6 +68,13 @@ class IdeaRepository(val realm: Realm) {
                 idea.elevatorPitch = elevatorPitch
                 realm1.copyToRealmOrUpdate(idea)
             }
+        }
+    }
+
+    fun deleteIdea(ideaId: String) {
+        realm.executeTransaction { realm1 ->
+            val idea = realm1.where(Idea::class.java).equalTo("id", ideaId).findFirst()
+            idea?.deleteFromRealm()
         }
     }
 }

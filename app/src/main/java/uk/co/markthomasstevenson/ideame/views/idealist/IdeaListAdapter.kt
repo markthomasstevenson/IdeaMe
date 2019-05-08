@@ -22,9 +22,11 @@ class IdeaListAdapter(private val listener: (String) -> Unit) : RecyclerView.Ada
     }
 
     class IdeaViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        var itemId = ""
         fun bind(item: IdeaListModel, listener: (String) -> Unit) = with(itemView) {
             idea_name.text = item.title
             idea_pitch.text = item.elavatorPitch
+            itemId = item.id
             setOnClickListener { listener(item.id) }
         }
     }
