@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#0052CC</color>
+    <color name="colorPrimaryDark">#172B4D</color>
+    <color name="colorAccent">#00B8D9</color>
+
+    <color name="error">#FF5630</color>
+    <color name="warning">#FFAB00</color>
+    <color name="success">#36B37E</color>
+    <color name="help">#6554C0</color>
+
+    <color name="squid_ink">#172B4D</color>
+    <color name="snorlax">#253858</color>
+    <color name="gram_hair">#F4F5F7</color>
+</resources>
