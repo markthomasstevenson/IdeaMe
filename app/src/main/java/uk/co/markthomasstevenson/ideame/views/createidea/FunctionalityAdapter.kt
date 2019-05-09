@@ -1,5 +1,7 @@
 package uk.co.markthomasstevenson.ideame.views.idealist
 
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,15 +22,48 @@ class FunctionalityAdapter(private val versionListener: (String, String) -> Unit
 
     fun updateItems(newItems: ArrayList<FunctionalityListModel>) {
         items = newItems
-        notifyDataSetChanged()
     }
 
     class FunctionalityViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        private lateinit var nListener: (String, String) -> Unit
+        private lateinit var itemIdContainer: String
+        private lateinit var vListener: (String, String) -> Unit
+        private val tv_func_text_watcher = object: TextWatcher {
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            }
+
+            override fun afterTextChanged(editable: Editable?) {
+                vListener(itemIdContainer, editable.toString())
+            }
+        }
+
+        private val tv_func_name_text_watcher = object: TextWatcher {
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            }
+
+            override fun afterTextChanged(editable: Editable?) {
+                nListener(itemIdContainer, editable.toString())
+            }
+        }
+
         fun bind(item: FunctionalityListModel, versionListener: (String, String) -> Unit, nameListener: (String, String) -> Unit) = with(itemView) {
+            vListener = versionListener
+            nListener = nameListener
+            itemIdContainer = item.id
+
+            tv_func_version.removeTextChangedListener(tv_func_text_watcher)
+            tv_func_name.removeTextChangedListener(tv_func_name_text_watcher)
+
             tv_func_version.setText(item.version, TextView.BufferType.EDITABLE)
             tv_func_name.setText(item.name, TextView.BufferType.EDITABLE)
-            tv_func_version.afterTextChanged { versionListener(item.id, it) }
-            tv_func_name.afterTextChanged { nameListener(item.id, it) }
+            tv_func_version.addTextChangedListener(tv_func_text_watcher)
+            tv_func_name.addTextChangedListener(tv_func_name_text_watcher)
         }
     }
 }

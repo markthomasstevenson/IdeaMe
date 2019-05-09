@@ -12,6 +12,7 @@ import java.util.*
 
 
 class IdeaViewModel : ViewModel() {
+    private var editableItem = MutableLiveData<String>()
     private var fabWasClickedToCreate = MutableLiveData<Boolean>()
     private var navigateWasEnabled = MutableLiveData<Boolean>()
 
@@ -87,5 +88,14 @@ class IdeaViewModel : ViewModel() {
             navigateWasEnabled.value = true
             return
         }
+    }
+
+    fun itemClicked(ideaId: String) {
+        editableItem.value = ideaId
+        fabWasClickedToCreate.value = true
+    }
+
+    fun watchForEditableItemClicked() : LiveData<String> {
+        return editableItem
     }
 }

@@ -51,14 +51,14 @@ class IdeaListFragment : Fragment() {
         })
         itemTouchHelper.attachToRecyclerView(recyclerView)
 
-        viewModel = ViewModelProviders.of(this).get(IdeaViewModel::class.java)
+        viewModel = ViewModelProviders.of(activity!!).get(IdeaViewModel::class.java)
         viewModel.getIdeas().observe(this, Observer {
             adapter.updateItems(ArrayList(it.map { idea -> IdeaListModel(idea.id, idea.title, idea.elevatorPitch) }))
         })
     }
 
     private fun itemClicked(it: String) {
-        Toast.makeText(context, "Go to Edit/View Screen for $it", Toast.LENGTH_LONG).show()
+        viewModel.itemClicked(it)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,

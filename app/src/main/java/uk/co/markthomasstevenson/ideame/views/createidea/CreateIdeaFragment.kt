@@ -13,6 +13,7 @@ import kotlinx.android.synthetic.main.fragment_create_idea.*
 
 import uk.co.markthomasstevenson.ideame.R
 import uk.co.markthomasstevenson.ideame.misc.afterTextChanged
+import uk.co.markthomasstevenson.ideame.model.Functionality
 import uk.co.markthomasstevenson.ideame.viewmodels.IdeaViewModel
 import uk.co.markthomasstevenson.ideame.views.idealist.FunctionalityAdapter
 import uk.co.markthomasstevenson.ideame.views.idealist.FunctionalityListModel
@@ -22,7 +23,11 @@ import java.util.*
  * A simple [Fragment] subclass.
  */
 class CreateIdeaFragment : Fragment() {
+    companion object {
+        const val IDEA_ID = "IDEA_ID"
+    }
 
+    private val functionality = ArrayList<Functionality>()
     private lateinit var viewModel: IdeaViewModel
     private lateinit var adapter: FunctionalityAdapter
     private lateinit var ideaId: String
@@ -34,22 +39,25 @@ class CreateIdeaFragment : Fragment() {
         recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.adapter = adapter
         recyclerView.setHasFixedSize(false)
-        ideaId = UUID.randomUUID().toString()
+        var existingIdeaId = arguments?.getString(IDEA_ID)
+        if(existingIdeaId == null) {
+            existingIdeaId = UUID.randomUUID().toString()
+        }
+        ideaId = existingIdeaId
 
         viewModel = ViewModelProviders.of(activity!!).get(IdeaViewModel::class.java)
-        viewModel.getOrCreateIdea(ideaId)
-        viewModel.getFunctionalities(ideaId).observe(this, Observer {
-            adapter.updateItems(ArrayList(it.map { functionality -> FunctionalityListModel(functionality.id, functionality.version, functionality.name) }))
-        })
+        val idea = viewModel.getOrCreateIdea(ideaId)
+        tv_title.setText(idea.title)
+        tv_elevatorPitch.setText(idea.elevatorPitch)
+        functionality.addAll(idea.coreFunctionality.toList())
+        adapter.updateItems(ArrayList(functionality.map { functionality -> FunctionalityListModel(functionality.id, functionality.version, functionality.name) }))
 
         btn_add_functionality.setOnClickListener { addFunctionality() }
         tv_elevatorPitch.afterTextChanged {
             et_elevatorPitch_container.error = null
-            saveInput()
         }
         tv_title.afterTextChanged {
             et_title_container.error = null
-            saveInput()
         }
         viewModel.watchFabWasClickedToCreate().observe(this, Observer {
             if(!it) {
@@ -63,6 +71,7 @@ class CreateIdeaFragment : Fragment() {
                     error = true
                 }
                 if(!error) {
+                    saveInput()
                     viewModel.enableNavigation()
                 }
             }
@@ -74,7 +83,12 @@ class CreateIdeaFragment : Fragment() {
     }
 
     private fun addFunctionality() {
-        viewModel.addFunctionality(ideaId)
+        val id = viewModel.addFunctionality(ideaId)
+        val func = Functionality()
+        func.id = id
+        functionality.add(func)
+        adapter.updateItems(ArrayList(functionality.map { functionality -> FunctionalityListModel(functionality.id, functionality.version, functionality.name) }))
+        adapter.notifyDataSetChanged()
     }
 
     private fun nameEdited(id: String, name: String) {
@@ -84,7 +98,6 @@ class CreateIdeaFragment : Fragment() {
     private fun versionEdited(id: String, version: String) {
         viewModel.updateFunctionalityVersion(id, version)
     }
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
