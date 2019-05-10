@@ -9,7 +9,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.card_functionality.view.*
 import uk.co.markthomasstevenson.ideame.R
-import uk.co.markthomasstevenson.ideame.misc.afterTextChanged
+import uk.co.markthomasstevenson.ideame.views.misc.BaseViewHolder
 
 class FunctionalityAdapter(private val versionListener: (String, String) -> Unit, private val nameListener: (String, String) -> Unit) : RecyclerView.Adapter<FunctionalityAdapter.FunctionalityViewHolder>() {
     private var items = ArrayList<FunctionalityListModel>()
@@ -24,7 +24,7 @@ class FunctionalityAdapter(private val versionListener: (String, String) -> Unit
         items = newItems
     }
 
-    class FunctionalityViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    class FunctionalityViewHolder(itemView: View) : BaseViewHolder(itemView) {
         private lateinit var nListener: (String, String) -> Unit
         private lateinit var itemIdContainer: String
         private lateinit var vListener: (String, String) -> Unit
@@ -55,7 +55,8 @@ class FunctionalityAdapter(private val versionListener: (String, String) -> Unit
         fun bind(item: FunctionalityListModel, versionListener: (String, String) -> Unit, nameListener: (String, String) -> Unit) = with(itemView) {
             vListener = versionListener
             nListener = nameListener
-            itemIdContainer = item.id
+            itemIdContainer = item.ideaId
+            usableId = item.id
 
             tv_func_version.removeTextChangedListener(tv_func_text_watcher)
             tv_func_name.removeTextChangedListener(tv_func_name_text_watcher)

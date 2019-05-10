@@ -98,4 +98,8 @@ class IdeaViewModel : ViewModel() {
     fun watchForEditableItemClicked() : LiveData<String> {
         return editableItem
     }
+
+    fun deleteFunctionality(functionalityId: String) {
+        realm.ideaDao().deleteFunctionality(functionalityId)
+    }
 }

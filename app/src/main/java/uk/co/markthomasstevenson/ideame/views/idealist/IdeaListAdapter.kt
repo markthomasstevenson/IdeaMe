@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.card_idea.view.*
 import uk.co.markthomasstevenson.ideame.R
+import uk.co.markthomasstevenson.ideame.views.misc.BaseViewHolder
 
 class IdeaListAdapter(private val listener: (String) -> Unit) : RecyclerView.Adapter<IdeaListAdapter.IdeaViewHolder>() {
     private var items = ArrayList<IdeaListModel>()
@@ -21,12 +22,11 @@ class IdeaListAdapter(private val listener: (String) -> Unit) : RecyclerView.Ada
         notifyDataSetChanged()
     }
 
-    class IdeaViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        var itemId = ""
+    class IdeaViewHolder(itemView: View) : BaseViewHolder(itemView) {
         fun bind(item: IdeaListModel, listener: (String) -> Unit) = with(itemView) {
             idea_name.text = item.title
             idea_pitch.text = item.elavatorPitch
-            itemId = item.id
+            usableId = item.id
             setOnClickListener { listener(item.id) }
         }
     }

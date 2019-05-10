@@ -9,9 +9,9 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import uk.co.markthomasstevenson.ideame.R
-import uk.co.markthomasstevenson.ideame.views.idealist.IdeaListAdapter
+import uk.co.markthomasstevenson.ideame.views.misc.BaseViewHolder
 
-class SwipeToDeleteHandler(context: Context, private val onDelete: (IdeaListAdapter.IdeaViewHolder) -> Unit) : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
+class SwipeToDeleteHandler(context: Context, private val onDelete: (BaseViewHolder) -> Unit) : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
     private val background = ColorDrawable(Color.RED)
     private val xMark = ContextCompat.getDrawable(context, R.drawable.ic_clear_24dp)?.apply {
         setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP)
@@ -24,7 +24,7 @@ class SwipeToDeleteHandler(context: Context, private val onDelete: (IdeaListAdap
 
     override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
         viewHolder.let {
-            val listItemViewHolder = viewHolder as IdeaListAdapter.IdeaViewHolder
+            val listItemViewHolder = viewHolder as BaseViewHolder
             onDelete(listItemViewHolder)
         }
     }
