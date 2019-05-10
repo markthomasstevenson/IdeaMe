@@ -31,7 +31,7 @@ class IdeaListFragment : Fragment() {
         recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.adapter = adapter
         val itemTouchHelper = ItemTouchHelper(SwipeToDeleteHandler(context!!) {
-            it.itemId.let { ideaId ->
+            it.usableId.let { ideaId ->
                 val idea = viewModel.getOrCreateIdea(ideaId)
                 AlertDialog.Builder(context!!)
                     .setTitle(getString(R.string.dialog_delete_idea))

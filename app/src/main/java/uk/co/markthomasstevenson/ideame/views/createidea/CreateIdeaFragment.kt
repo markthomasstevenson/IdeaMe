@@ -8,10 +8,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.fragment_create_idea.*
 
 import uk.co.markthomasstevenson.ideame.R
+import uk.co.markthomasstevenson.ideame.misc.SwipeToDeleteHandler
 import uk.co.markthomasstevenson.ideame.misc.afterTextChanged
 import uk.co.markthomasstevenson.ideame.model.Functionality
 import uk.co.markthomasstevenson.ideame.viewmodels.IdeaViewModel
@@ -38,6 +40,21 @@ class CreateIdeaFragment : Fragment() {
         adapter = FunctionalityAdapter(::versionEdited, ::nameEdited)
         recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.adapter = adapter
+
+        val itemTouchHelper = ItemTouchHelper(SwipeToDeleteHandler(context!!) {
+            it.usableId.let { functionalityId ->
+                for (item in functionality) {
+                    if(item.id == functionalityId) {
+                        functionality.remove(item)
+                        viewModel.deleteFunctionality(functionalityId)
+                        adapter.updateItems(ArrayList(functionality.map { functionality -> FunctionalityListModel(functionality.id, functionality.version, functionality.name, functionality.ideaId) }))
+                        adapter.notifyDataSetChanged()
+                        break
+                    }
+                }
+            }
+        })
+        itemTouchHelper.attachToRecyclerView(recyclerView)
         recyclerView.setHasFixedSize(false)
         var existingIdeaId = arguments?.getString(IDEA_ID)
         if(existingIdeaId == null) {
@@ -50,7 +67,7 @@ class CreateIdeaFragment : Fragment() {
         tv_title.setText(idea.title)
         tv_elevatorPitch.setText(idea.elevatorPitch)
         functionality.addAll(idea.coreFunctionality.toList())
-        adapter.updateItems(ArrayList(functionality.map { functionality -> FunctionalityListModel(functionality.id, functionality.version, functionality.name) }))
+        adapter.updateItems(ArrayList(functionality.map { functionality -> FunctionalityListModel(functionality.id, functionality.version, functionality.name, functionality.ideaId) }))
 
         btn_add_functionality.setOnClickListener { addFunctionality() }
         tv_elevatorPitch.afterTextChanged {
@@ -87,7 +104,7 @@ class CreateIdeaFragment : Fragment() {
         val func = Functionality()
         func.id = id
         functionality.add(func)
-        adapter.updateItems(ArrayList(functionality.map { functionality -> FunctionalityListModel(functionality.id, functionality.version, functionality.name) }))
+        adapter.updateItems(ArrayList(functionality.map { functionality -> FunctionalityListModel(functionality.id, functionality.version, functionality.name, functionality.ideaId) }))
         adapter.notifyDataSetChanged()
     }
 

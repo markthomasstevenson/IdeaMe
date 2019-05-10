@@ -77,4 +77,11 @@ class IdeaRepository(val realm: Realm) {
             idea?.deleteFromRealm()
         }
     }
+
+    fun deleteFunctionality(functionalityId: String) {
+        realm.executeTransaction { realm1 ->
+            val functionality = realm1.where(Functionality::class.java).equalTo("id", functionalityId).findFirst()
+            functionality?.deleteFromRealm()
+        }
+    }
 }
