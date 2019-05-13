@@ -4,6 +4,6 @@
 
     <item
         android:gravity="center"
-        android:drawable="@drawable/scrum"
+        android:drawable="@drawable/idea_background"
         />
 </layer-list>
