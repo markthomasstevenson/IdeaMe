@@ -5,9 +5,33 @@
     android:layout_height="match_parent"
     tools:context=".views.idealist.IdeaListFragment">
 
-    <androidx.recyclerview.widget.RecyclerView
+    <uk.co.markthomasstevenson.ideame.misc.EmptyHandlingRecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/recyclerView"/>
+
+    <RelativeLayout
+        android:id="@+id/empty_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="@string/idea_list_empty"
+            android:textColor="@color/snorlax"
+            android:textSize="36sp" />
+        <ImageView
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginEnd="100dp"
+            android:layout_marginBottom="30dp"
+            android:scaleY="-1"
+            android:src="@drawable/arrow_right"
+            android:contentDescription="@string/idea_list_empty_arrow_desc" />
+    </RelativeLayout>
 
 </FrameLayout>
