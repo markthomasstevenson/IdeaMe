@@ -30,6 +30,7 @@ class IdeaListFragment : Fragment() {
         }
         recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.adapter = adapter
+        recyclerView.setEmptyView(empty_view)
         val itemTouchHelper = ItemTouchHelper(SwipeToDeleteHandler(context!!) {
             it.usableId.let { ideaId ->
                 val idea = viewModel.getOrCreateIdea(ideaId)

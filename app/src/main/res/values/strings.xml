@@ -18,4 +18,6 @@
     <string name="dialog_delete_idea_message">Are you sure you want to delete idea \'%s\'? This will be irreversible.</string>
     <string name="dialog_sure">I am sure</string>
     <string name="dialog_no">No!</string>
+    <string name="idea_list_empty">Add an idea!</string>
+    <string name="idea_list_empty_arrow_desc">Arrow pointing to Create Idea button</string>
 </resources>
