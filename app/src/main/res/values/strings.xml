@@ -20,4 +20,5 @@
     <string name="dialog_no">No!</string>
     <string name="idea_list_empty">Add an idea!</string>
     <string name="idea_list_empty_arrow_desc">Arrow pointing to Create Idea button</string>
+    <string name="idea_edit_title">Edit your Idea</string>
 </resources>
