@@ -26,7 +26,6 @@ class FunctionalityAdapter(private val versionListener: (String, String) -> Unit
 
     class FunctionalityViewHolder(itemView: View) : BaseViewHolder(itemView) {
         private lateinit var nListener: (String, String) -> Unit
-        private lateinit var itemIdContainer: String
         private lateinit var vListener: (String, String) -> Unit
         private val tv_func_text_watcher = object: TextWatcher {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
@@ -36,7 +35,7 @@ class FunctionalityAdapter(private val versionListener: (String, String) -> Unit
             }
 
             override fun afterTextChanged(editable: Editable?) {
-                vListener(itemIdContainer, editable.toString())
+                vListener(usableId, editable.toString())
             }
         }
 
@@ -48,14 +47,13 @@ class FunctionalityAdapter(private val versionListener: (String, String) -> Unit
             }
 
             override fun afterTextChanged(editable: Editable?) {
-                nListener(itemIdContainer, editable.toString())
+                nListener(usableId, editable.toString())
             }
         }
 
         fun bind(item: FunctionalityListModel, versionListener: (String, String) -> Unit, nameListener: (String, String) -> Unit) = with(itemView) {
             vListener = versionListener
             nListener = nameListener
-            itemIdContainer = item.ideaId
             usableId = item.id
 
             tv_func_version.removeTextChangedListener(tv_func_text_watcher)
