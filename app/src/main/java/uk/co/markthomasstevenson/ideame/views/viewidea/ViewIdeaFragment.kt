@@ -1,4 +1,4 @@
-package uk.co.markthomasstevenson.ideame.views.createidea
+package uk.co.markthomasstevenson.ideame.views.viewidea
 
 
 import android.os.Bundle
@@ -10,7 +10,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
-import kotlinx.android.synthetic.main.fragment_create_idea.*
+import kotlinx.android.synthetic.main.fragment_view_idea.*
 
 import uk.co.markthomasstevenson.ideame.R
 import uk.co.markthomasstevenson.ideame.misc.SwipeToDeleteHandler
@@ -24,7 +24,7 @@ import java.util.*
 /**
  * A simple [Fragment] subclass.
  */
-class CreateIdeaFragment : Fragment() {
+class ViewIdeaFragment : Fragment() {
     companion object {
         const val IDEA_ID = "IDEA_ID"
     }
@@ -118,7 +118,7 @@ class CreateIdeaFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_create_idea, container, false)
+        return inflater.inflate(R.layout.fragment_view_idea, container, false)
     }
 
 

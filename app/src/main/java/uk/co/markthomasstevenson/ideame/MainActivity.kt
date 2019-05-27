@@ -6,13 +6,11 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment.findNavController
-import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI.setupActionBarWithNavController
-import androidx.navigation.ui.NavigationUI.setupWithNavController
 import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat
 import kotlinx.android.synthetic.main.activity_main.*
 import uk.co.markthomasstevenson.ideame.viewmodels.IdeaViewModel
-import uk.co.markthomasstevenson.ideame.views.createidea.CreateIdeaFragment
+import uk.co.markthomasstevenson.ideame.views.viewidea.ViewIdeaFragment
 import java.util.*
 
 class MainActivity : BaseActivity() {
@@ -38,16 +36,20 @@ class MainActivity : BaseActivity() {
         tickToPlus = AnimatedVectorDrawableCompat.create(baseContext, R.drawable.ticktoplus)
         viewModel.watchForNavigateEnabled().observe(this, Observer {
             if(showingPlus) {
-                val bundle = bundleOf(CreateIdeaFragment.IDEA_ID to UUID.randomUUID().toString())
+                val bundle = bundleOf(ViewIdeaFragment.IDEA_ID to UUID.randomUUID().toString())
                 navController.navigate(R.id.action_ideaListFragment_to_createIdeaFragment, bundle)
             } else {
-                navController.navigate(R.id.action_createIdeaFragment_to_ideaListFragment)
+                if(navController.currentDestination?.id == R.id.editIdeaFragment) {
+                    navController.navigate(R.id.action_editIdeaFragment_to_ideaListFragment)
+                } else {
+                    navController.navigate(R.id.action_createIdeaFragment_to_ideaListFragment)
+                }
             }
              morph()
         })
         viewModel.watchForEditableItemClicked().observe(this, Observer {
-            val bundle = bundleOf(CreateIdeaFragment.IDEA_ID to it)
-            navController.navigate(R.id.action_ideaListFragment_to_createIdeaFragment, bundle)
+            val bundle = bundleOf(ViewIdeaFragment.IDEA_ID to it)
+            navController.navigate(R.id.action_ideaListFragment_to_editIdeaFragment, bundle)
             morph()
         })
 
