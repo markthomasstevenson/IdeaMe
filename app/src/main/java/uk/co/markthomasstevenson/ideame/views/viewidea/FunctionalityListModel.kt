@@ -1,4 +1,4 @@
-package uk.co.markthomasstevenson.ideame.views.idealist
+package uk.co.markthomasstevenson.ideame.views.viewidea
 
 data class FunctionalityListModel (
     val id: String,

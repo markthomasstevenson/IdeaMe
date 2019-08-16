@@ -47,7 +47,7 @@ class MainActivity : BaseActivity() {
             }
              morph()
         })
-        viewModel.watchForEditableItemClicked().observe(this, Observer {
+        viewModel.watchForEditableIdeaClicked().observe(this, Observer {
             val bundle = bundleOf(ViewIdeaFragment.IDEA_ID to it)
             navController.navigate(R.id.action_ideaListFragment_to_editIdeaFragment, bundle)
             morph()

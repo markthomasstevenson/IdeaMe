@@ -33,11 +33,13 @@ class IdeaRepository(val realm: Realm) {
         return realm.where(Functionality::class.java).equalTo("ideaId", ideaId).findAllAsync().asLiveData()
     }
 
-    fun addFunctionality(ideaId: String, id: String) {
+    fun addFunctionality(ideaId: String, id: String, version: String, name: String) {
         realm.executeTransaction {
             val functionality = Functionality()
             functionality.id = id
             functionality.ideaId = ideaId
+            functionality.version = version
+            functionality.name = name
             it.copyToRealmOrUpdate(functionality)
             val idea = it.where(Idea::class.java).equalTo("id", ideaId).findFirst()
             idea?.coreFunctionality?.add(functionality)

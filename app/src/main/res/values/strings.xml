@@ -8,17 +8,21 @@
     <string name="create_idea_title">Title</string>
     <string name="create_idea_elevator_pitch">Elevator Pitch</string>
     <string name="create_idea_func_placeholder">Functionality</string>
-    <string name="create_idea_version_placeholder">v1.0</string>
+    <string name="create_idea_version_placeholder">Version</string>
     <string name="create_idea_about">About</string>
     <string name="create_idea_title_func">Functionality</string>
+    <string name="create_func_title">Add Functionality</string>
     <string name="create_idea_add_func">Add</string>
     <string name="create_idea_title_error">Title must have a value</string>
     <string name="create_idea_elevator_pitch_error">Elevator Pitch must have a value</string>
     <string name="dialog_delete_idea">Delete Idea?</string>
     <string name="dialog_delete_idea_message">Are you sure you want to delete idea \'%s\'? This will be irreversible.</string>
     <string name="dialog_sure">I am sure</string>
+    <string name="dialog_create">Create</string>
     <string name="dialog_no">No!</string>
+    <string name="dialog_cancel">Cancel</string>
     <string name="idea_list_empty">Add an idea!</string>
     <string name="idea_list_empty_arrow_desc">Arrow pointing to Create Idea button</string>
     <string name="idea_edit_title">Edit your Idea</string>
+    <string name="dialog_update">Update</string>
 </resources>
