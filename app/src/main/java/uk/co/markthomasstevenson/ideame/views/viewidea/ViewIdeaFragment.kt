@@ -96,7 +96,7 @@ class ViewIdeaFragment : Fragment() {
     }
 
     private fun saveInput() {
-        viewModel.updateIdea(ideaId, tv_title.text.toString(), tv_elevatorPitch.text.toString())
+        viewModel.updateIdea(ideaId, tv_title.text.toString().trim(), tv_elevatorPitch.text.toString().trim())
     }
 
     private fun addFunctionality() {
