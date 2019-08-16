@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "520810340261",
+    "firebase_url": "https://ideame-mts.firebaseio.com",
+    "project_id": "ideame-mts",
+    "storage_bucket": "ideame-mts.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:520810340261:android:00be2f4e609f1c1e",
+        "android_client_info": {
+          "package_name": "uk.co.markthomasstevenson.ideame"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "520810340261-80rd93m5njn57h7p7daps5j2u2e0s5pl.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDg5WjY7Sef6Jmn1_IVU1y1DZ-au5aPt6s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "520810340261-80rd93m5njn57h7p7daps5j2u2e0s5pl.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
