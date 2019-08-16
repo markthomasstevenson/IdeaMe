@@ -20,6 +20,7 @@ class MainActivity : BaseActivity() {
     private var tickToPlus: AnimatedVectorDrawableCompat? = null
     private var showingPlus = true
     lateinit var navController: NavController
+    var currentIdeaId: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -62,7 +63,12 @@ class MainActivity : BaseActivity() {
     }
 
     override fun onSupportNavigateUp(): Boolean {
-        viewModel.fabClicked(showingPlus)
+        if(navController.currentDestination?.id == R.id.createIdeaFragment) {
+            viewModel.deleteIdea(currentIdeaId!!)
+            viewModel.enableNavigation()
+        } else if(navController.currentDestination?.id == R.id.editIdeaFragment) {
+            viewModel.enableNavigation()
+        }
         return false
     }
 

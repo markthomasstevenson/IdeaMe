@@ -19,6 +19,7 @@ import uk.co.markthomasstevenson.ideame.viewmodels.IdeaViewModel
 import java.util.*
 import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
+import uk.co.markthomasstevenson.ideame.MainActivity
 
 
 /**
@@ -51,6 +52,7 @@ class ViewIdeaFragment : Fragment() {
             existingIdeaId = UUID.randomUUID().toString()
         }
         ideaId = existingIdeaId
+        (activity as MainActivity).currentIdeaId = ideaId
 
         val idea = viewModel.getOrCreateIdea(ideaId)
         tv_title.setText(idea.title)
