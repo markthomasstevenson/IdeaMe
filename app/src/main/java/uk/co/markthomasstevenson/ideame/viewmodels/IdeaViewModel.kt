@@ -12,7 +12,8 @@ import java.util.*
 
 
 class IdeaViewModel : ViewModel() {
-    private var editableItem = MutableLiveData<String>()
+    private var editableIdea = MutableLiveData<String>()
+    private var editableFunctionality = MutableLiveData<String>()
     private var fabWasClickedToCreate = MutableLiveData<Boolean>()
     private var navigateWasEnabled = MutableLiveData<Boolean>()
 
@@ -40,9 +41,9 @@ class IdeaViewModel : ViewModel() {
         return realm.ideaDao().getFunctionality(id)
     }
 
-    fun addFunctionality(ideaId: String): String {
+    fun addFunctionality(ideaId: String, version: String, name: String): String {
         val id = UUID.randomUUID().toString()
-        realm.ideaDao().addFunctionality(ideaId, id)
+        realm.ideaDao().addFunctionality(ideaId, id, version, name)
         return id
     }
 
@@ -55,14 +56,8 @@ class IdeaViewModel : ViewModel() {
         super.onCleared()
     }
 
-    fun updateFunctionalityVersion(id: String, version: String) {
-        val functionality = getFunctionality(id)
-        updateFunctionality(id, version, functionality!!.name)
-    }
-
-    fun updateFunctionalityName(id: String, name: String) {
-        val functionality = getFunctionality(id)
-        updateFunctionality(id, functionality!!.version, name)
+    fun updateFunctionalityVersion(id: String, version: String, name: String) {
+        updateFunctionality(id, version, name)
     }
 
     fun updateIdea(id: String, title: String, elevatorPitch: String) {
@@ -90,13 +85,21 @@ class IdeaViewModel : ViewModel() {
         }
     }
 
-    fun itemClicked(ideaId: String) {
-        editableItem.value = ideaId
+    fun functionalityClicked(functionalityId: String) {
+        editableFunctionality.value = functionalityId
+    }
+
+    fun watchForFunctionalityClicked() : LiveData<String> {
+        return editableFunctionality
+    }
+
+    fun ideaClicked(ideaId: String) {
+        editableIdea.value = ideaId
         fabWasClickedToCreate.value = true
     }
 
-    fun watchForEditableItemClicked() : LiveData<String> {
-        return editableItem
+    fun watchForEditableIdeaClicked() : LiveData<String> {
+        return editableIdea
     }
 
     fun deleteFunctionality(functionalityId: String) {

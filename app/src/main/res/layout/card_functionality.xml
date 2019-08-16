@@ -16,26 +16,27 @@
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <com.google.android.material.textfield.TextInputEditText
+            android:orientation="horizontal"
+            android:paddingTop="30dp"
+            android:paddingBottom="30dp">
+            <TextView
                 android:id="@+id/tv_func_version"
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="8dp"
-                android:inputType="textCapCharacters|number"
-                android:maxLength="3"
+                android:textColor="@color/snorlax"
                 android:hint="@string/create_idea_version_placeholder"/>
-            <com.google.android.material.textfield.TextInputEditText
+            <TextView
                 android:layout_width="0dp"
                 android:layout_weight="4"
                 android:layout_height="wrap_content"
+                android:textColor="@color/snorlax"
                 android:layout_alignStart="@id/tv_func_version"
                 android:layout_marginStart="8dp"
                 android:layout_marginEnd="16dp"
                 android:id="@+id/tv_func_name"
-                android:inputType="textMultiLine"
                 android:hint="@string/create_idea_func_placeholder"/>
         </androidx.appcompat.widget.LinearLayoutCompat>
     </com.google.android.material.card.MaterialCardView>
