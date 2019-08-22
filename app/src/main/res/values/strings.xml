@@ -25,4 +25,7 @@
     <string name="idea_list_empty_arrow_desc">Arrow pointing to Create Idea button</string>
     <string name="idea_edit_title">Edit your Idea</string>
     <string name="dialog_update">Update</string>
+    <string name="undo_idea_create_title">Undo Create Idea</string>
+    <string name="undo_idea_create_message">This will delete your new idea and any details. This is not reversible!</string>
+    <string name="dialog_delete_idea">Delete Idea</string>
 </resources>

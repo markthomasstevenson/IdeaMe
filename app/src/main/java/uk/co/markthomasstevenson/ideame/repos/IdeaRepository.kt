@@ -76,6 +76,7 @@ class IdeaRepository(val realm: Realm) {
     fun deleteIdea(ideaId: String) {
         realm.executeTransaction { realm1 ->
             val idea = realm1.where(Idea::class.java).equalTo("id", ideaId).findFirst()
+            idea?.coreFunctionality?.deleteAllFromRealm()
             idea?.deleteFromRealm()
         }
     }

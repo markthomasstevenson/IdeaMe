@@ -87,27 +87,30 @@ class ViewIdeaFragment : Fragment() {
             }
         })
         viewModel.watchForFunctionalityClicked().observe(this, Observer {
-            val factory = LayoutInflater.from(context)
-            val functionality = viewModel.getFunctionality(it)
+            if(it != null) {
+                val factory = LayoutInflater.from(context)
+                val functionality = viewModel.getFunctionality(it)
 
-            val textEntryView = factory.inflate(R.layout.view_functionality_entry, null)
-            textEntryView.findViewById<EditText>(R.id.tv_version).setText(functionality?.version)
-            textEntryView.findViewById<EditText>(R.id.tv_functionality).setText(functionality?.name)
+                val textEntryView = factory.inflate(R.layout.view_functionality_entry, null)
+                textEntryView.findViewById<EditText>(R.id.tv_version).setText(functionality?.version)
+                textEntryView.findViewById<EditText>(R.id.tv_functionality).setText(functionality?.name)
 
-            val alert = context?.let { AlertDialog.Builder(it) }
-            alert?.setTitle(R.string.create_func_title)
-                    ?.setView(textEntryView)
-                    ?.setPositiveButton(R.string.dialog_update
-                    ) { dialog, _ ->
-                        functionalityEdited(it, textEntryView.findViewById<EditText>(R.id.tv_version).text.toString().trim(),
-                                textEntryView.findViewById<EditText>(R.id.tv_functionality).text.toString().trim())
-                        dialog.dismiss()
-                    }
-                    ?.setNegativeButton(R.string.dialog_cancel
-                    ) { dialog, _ ->
-                        dialog.dismiss()
-                    }
-            alert?.show()
+                val alert = context?.let { AlertDialog.Builder(it) }
+                alert?.setTitle(R.string.create_func_title)
+                        ?.setView(textEntryView)
+                        ?.setPositiveButton(R.string.dialog_update
+                        ) { dialog, _ ->
+                            functionalityEdited(it, textEntryView.findViewById<EditText>(R.id.tv_version).text.toString().trim(),
+                                    textEntryView.findViewById<EditText>(R.id.tv_functionality).text.toString().trim())
+                            dialog.dismiss()
+                        }
+                        ?.setNegativeButton(R.string.dialog_cancel
+                        ) { dialog, _ ->
+                            dialog.dismiss()
+                        }
+                alert?.show()
+                viewModel.functionalityClicked(null)
+            }
         })
     }
 
