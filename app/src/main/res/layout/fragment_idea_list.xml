@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/fragment_idea_list"
     tools:context=".views.idealist.IdeaListFragment">
 
     <uk.co.markthomasstevenson.ideame.misc.EmptyHandlingRecyclerView
