@@ -33,7 +33,7 @@ class IdeaListFragment : Fragment() {
             it.usableId.let { ideaId ->
                 val idea = viewModel.getOrCreateIdea(ideaId)
                 AlertDialog.Builder(context!!)
-                    .setTitle(getString(R.string.dialog_delete_idea))
+                    .setTitle(getString(R.string.dialog_title_delete_idea))
                     .setMessage(getString(R.string.dialog_delete_idea_message, idea.title))
                     .setPositiveButton(R.string.dialog_sure) { dialog, _ ->
                         adapter.notifyItemRemoved(it.adapterPosition)
