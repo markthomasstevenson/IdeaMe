@@ -8,8 +8,8 @@ Feature: Create Idea
   Scenario: Back out of Create Idea and Cancel
     Given I am on the "create idea" screen
     When I navigate up
-    And I am shown a dialog
-    And I tap the negative option
+    Then I am shown a dialog
+    When I tap the negative option
     Then I am on the "create idea" screen
 
   Scenario: Submit idea without Title or Elevator Pitch
