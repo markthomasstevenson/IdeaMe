@@ -85,7 +85,7 @@ class IdeaViewModel : ViewModel() {
         }
     }
 
-    fun functionalityClicked(functionalityId: String) {
+    fun functionalityClicked(functionalityId: String?) {
         editableFunctionality.value = functionalityId
     }
 

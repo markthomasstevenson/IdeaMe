@@ -12,6 +12,10 @@ class IdeaRepository(val realm: Realm) {
         return realm.where(Idea::class.java).findAllAsync().asLiveData()
     }
 
+    fun getIdeaCount() : Int {
+        return realm.where(Idea::class.java).findAll().count()
+    }
+
     fun getOrCreateIdea(id: String): Idea {
         var idea = realm.where(Idea::class.java).equalTo("id", id).findFirst()
         if(idea == null) {
@@ -76,6 +80,7 @@ class IdeaRepository(val realm: Realm) {
     fun deleteIdea(ideaId: String) {
         realm.executeTransaction { realm1 ->
             val idea = realm1.where(Idea::class.java).equalTo("id", ideaId).findFirst()
+            idea?.coreFunctionality?.deleteAllFromRealm()
             idea?.deleteFromRealm()
         }
     }

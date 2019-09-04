@@ -1,6 +1,7 @@
 package uk.co.markthomasstevenson.ideame
 
 import android.os.Bundle
+import androidx.appcompat.app.AlertDialog
 import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -64,8 +65,20 @@ class MainActivity : BaseActivity() {
 
     override fun onSupportNavigateUp(): Boolean {
         if(navController.currentDestination?.id == R.id.createIdeaFragment) {
-            viewModel.deleteIdea(currentIdeaId!!)
-            viewModel.enableNavigation()
+            val alert = this.let { AlertDialog.Builder(it) }
+            alert.setTitle(R.string.undo_idea_create_title)
+                    .setMessage(R.string.undo_idea_create_message)
+                    .setPositiveButton(R.string.dialog_delete_idea
+                    ) { dialog, _ ->
+                        viewModel.deleteIdea(currentIdeaId!!)
+                        viewModel.enableNavigation()
+                        dialog.dismiss()
+                    }
+                    .setNegativeButton(R.string.dialog_cancel
+                    ) { dialog, _ ->
+                        dialog.dismiss()
+                    }
+            alert.show()
         } else if(navController.currentDestination?.id == R.id.editIdeaFragment) {
             viewModel.enableNavigation()
         }

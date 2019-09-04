@@ -15,7 +15,7 @@
     <string name="create_idea_add_func">Add</string>
     <string name="create_idea_title_error">Title must have a value</string>
     <string name="create_idea_elevator_pitch_error">Elevator Pitch must have a value</string>
-    <string name="dialog_delete_idea">Delete Idea?</string>
+    <string name="dialog_title_delete_idea">Delete Idea?</string>
     <string name="dialog_delete_idea_message">Are you sure you want to delete idea \'%s\'? This will be irreversible.</string>
     <string name="dialog_sure">I am sure</string>
     <string name="dialog_create">Create</string>
@@ -25,4 +25,7 @@
     <string name="idea_list_empty_arrow_desc">Arrow pointing to Create Idea button</string>
     <string name="idea_edit_title">Edit your Idea</string>
     <string name="dialog_update">Update</string>
+    <string name="undo_idea_create_title">Undo Create Idea</string>
+    <string name="undo_idea_create_message">This will delete your new idea and any details. This is not reversible!</string>
+    <string name="dialog_delete_idea">Delete Idea</string>
 </resources>
