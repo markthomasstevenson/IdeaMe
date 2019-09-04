@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.fragment_idea_list.*
 
 import uk.co.markthomasstevenson.ideame.R
-import uk.co.markthomasstevenson.ideame.misc.SwipeToDeleteHandler
+import uk.co.markthomasstevenson.ideame.misc.ComplexTouchHandler
 import uk.co.markthomasstevenson.ideame.viewmodels.IdeaViewModel
 
 class IdeaListFragment : Fragment() {
@@ -23,13 +23,14 @@ class IdeaListFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        adapter = IdeaListAdapter{
-            itemClicked(it)
-        }
+        adapter = IdeaListAdapter(
+                {itemClicked(it)},
+                { i: Int, i1: Int -> itemMoved(i, i1)}
+        )
         recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.adapter = adapter
         recyclerView.setEmptyView(empty_view)
-        val itemTouchHelper = ItemTouchHelper(SwipeToDeleteHandler(context!!) {
+        val itemTouchHelper = ItemTouchHelper(ComplexTouchHandler(adapter, context!!) {
             it.usableId.let { ideaId ->
                 val idea = viewModel.getOrCreateIdea(ideaId)
                 AlertDialog.Builder(context!!)
@@ -54,6 +55,10 @@ class IdeaListFragment : Fragment() {
         viewModel.getIdeas().observe(this, Observer {
             adapter.updateItems(ArrayList(it.map { idea -> IdeaListModel(idea.id, idea.title, idea.elevatorPitch) }))
         })
+    }
+
+    private fun itemMoved(from: Int, to: Int) {
+        // do the thing
     }
 
     private fun itemClicked(it: String) {

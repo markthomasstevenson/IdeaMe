@@ -12,17 +12,14 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.fragment_view_idea.*
 
 import uk.co.markthomasstevenson.ideame.R
-import uk.co.markthomasstevenson.ideame.misc.SwipeToDeleteHandler
+import uk.co.markthomasstevenson.ideame.misc.ComplexTouchHandler
 import uk.co.markthomasstevenson.ideame.misc.afterTextChanged
-import uk.co.markthomasstevenson.ideame.model.Functionality
 import uk.co.markthomasstevenson.ideame.viewmodels.IdeaViewModel
 import java.util.*
 import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
 import uk.co.markthomasstevenson.ideame.MainActivity
 import android.content.Context.INPUT_METHOD_SERVICE
-import androidx.core.content.ContextCompat.getSystemService
-import android.content.Context
 import android.view.inputmethod.InputMethodManager
 
 
@@ -47,7 +44,7 @@ class ViewIdeaFragment : Fragment() {
         recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.adapter = adapter
 
-        val itemTouchHelper = ItemTouchHelper(SwipeToDeleteHandler(context!!) {
+        val itemTouchHelper = ItemTouchHelper(ComplexTouchHandler(context!!) {
             viewModel.deleteFunctionality(it.usableId)
         })
         itemTouchHelper.attachToRecyclerView(recyclerView)

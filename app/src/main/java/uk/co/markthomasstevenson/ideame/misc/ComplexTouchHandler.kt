@@ -9,9 +9,10 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import uk.co.markthomasstevenson.ideame.R
+import uk.co.markthomasstevenson.ideame.views.idealist.IdeaListAdapter
 import uk.co.markthomasstevenson.ideame.views.misc.BaseViewHolder
 
-class SwipeToDeleteHandler(context: Context, private val onDelete: (BaseViewHolder) -> Unit) : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
+class ComplexTouchHandler(private val adapter: IdeaListAdapter, context: Context, private val onDelete: (BaseViewHolder) -> Unit) : ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP.or(ItemTouchHelper.DOWN), ItemTouchHelper.LEFT) {
     private val background = ColorDrawable(Color.RED)
     private val xMark = ContextCompat.getDrawable(context, R.drawable.ic_clear_24dp)?.apply {
         setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP)
@@ -19,8 +20,10 @@ class SwipeToDeleteHandler(context: Context, private val onDelete: (BaseViewHold
     private val xMarkMargin = context.resources.getDimension(R.dimen.ic_clear_margin).toInt()
 
 
-    override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder): Boolean
-            = false
+    override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder): Boolean {
+        adapter.moveItem(viewHolder.adapterPosition, target.adapterPosition)
+        return true
+    }
 
     override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
         viewHolder.let {
