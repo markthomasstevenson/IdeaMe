@@ -15,7 +15,7 @@ import cucumber.api.java.en.Then
 import io.realm.Realm
 import uk.co.markthomasstevenson.ideame.data.ideaDao
 
-class MainSteps {
+class IdeaListSteps : CommonSteps() {
     private var rule: ActivityTestRule<*> = ActivityTestRule(SplashActivity::class.java, false, false)
 
     @Before
@@ -30,6 +30,41 @@ class MainSteps {
 
     @Given("I am on the {string} screen")
     fun i_am_on_the_screen(name: String) {
+        val id = when (name) {
+            "idea list" ->
+                R.id.fragment_idea_list
+            "create idea" ->
+                R.id.fragment_view_idea
+            "view idea" ->
+                R.id.fragment_view_idea
+            else ->
+                R.id.fragment_view_idea
+        }
+        val wait = 1000L
+        var totalWait = 0L
+        while( totalWait < waitForActivityTimeout ) {
+            try {
+                onView(withId(id)).check(matches(isDisplayed()))
+                return
+            }catch( e: NoMatchingViewException){
+                if(id == R.id.fragment_view_idea) {
+                    try {
+                        onView(withId(R.id.fragment_idea_list)).check(matches(isDisplayed()))
+                        tap_fab_button()
+                        totalWait += wait
+                        Thread.sleep(wait)
+                    }catch( e: NoMatchingViewException){}
+                }
+                totalWait += wait
+                Thread.sleep(wait)
+            }
+        }
+
+        throw Exception("The $name screen was not displayed")
+    }
+
+    @Then("I am on the {string} screen")
+    fun then_i_am_on_the_screen(name: String) {
         val id = when (name) {
             "idea list" ->
                 R.id.fragment_idea_list
@@ -63,10 +98,5 @@ class MainSteps {
         }
         realm.close()
         return
-    }
-
-    @Then("I should see {string}")
-    fun i_should_see(text: String) {
-        onView(withText(text)).check(matches(isCompletelyDisplayed()))
     }
 }
