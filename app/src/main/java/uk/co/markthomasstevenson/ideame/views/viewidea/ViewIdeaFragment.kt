@@ -20,6 +20,10 @@ import java.util.*
 import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
 import uk.co.markthomasstevenson.ideame.MainActivity
+import android.content.Context.INPUT_METHOD_SERVICE
+import androidx.core.content.ContextCompat.getSystemService
+import android.content.Context
+import android.view.inputmethod.InputMethodManager
 
 
 /**
@@ -30,6 +34,7 @@ class ViewIdeaFragment : Fragment() {
         const val IDEA_ID = "IDEA_ID"
     }
 
+    private var lastUsedVersion: String = ""
     private lateinit var viewModel: IdeaViewModel
     private lateinit var adapter: FunctionalityAdapter
     private lateinit var ideaId: String
@@ -62,7 +67,7 @@ class ViewIdeaFragment : Fragment() {
             adapter.notifyDataSetChanged()
         })
 
-        btn_add_functionality.setOnClickListener { showAddFunctionalityDialog() }
+        btn_add_functionality.setOnClickListener { v -> showAddFunctionalityDialog(v) }
         tv_elevatorPitch.afterTextChanged {
             et_elevatorPitch_container.error = null
         }
@@ -103,10 +108,12 @@ class ViewIdeaFragment : Fragment() {
                             functionalityEdited(it, textEntryView.findViewById<EditText>(R.id.tv_version).text.toString().trim(),
                                     textEntryView.findViewById<EditText>(R.id.tv_functionality).text.toString().trim())
                             dialog.dismiss()
+                            hideKeyboard(view!!)
                         }
                         ?.setNegativeButton(R.string.dialog_cancel
                         ) { dialog, _ ->
                             dialog.dismiss()
+                            hideKeyboard(view!!)
                         }
                 alert?.show()
                 viewModel.functionalityClicked(null)
@@ -114,16 +121,27 @@ class ViewIdeaFragment : Fragment() {
         })
     }
 
-    private fun showAddFunctionalityDialog() {
+    private fun hideKeyboard(view: View) {
+        val imm = view.context
+                .getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(view.windowToken, 0)
+    }
+
+    private fun showAddFunctionalityDialog(v: View) {
+        tv_title.clearFocus()
+        tv_elevatorPitch.clearFocus()
+        hideKeyboard(v)
         val factory = LayoutInflater.from(context)
 
         val textEntryView = factory.inflate(R.layout.view_functionality_entry, null)
+        textEntryView.findViewById<EditText>(R.id.tv_version).setText(lastUsedVersion)
 
         val alert = context?.let { AlertDialog.Builder(it) }
         alert?.setTitle(R.string.create_func_title)
                 ?.setView(textEntryView)
                 ?.setPositiveButton(R.string.dialog_create
                 ) { dialog, _ ->
+                    lastUsedVersion = textEntryView.findViewById<EditText>(R.id.tv_version).text.toString().trim()
                     addFunctionality(textEntryView.findViewById<EditText>(R.id.tv_version).text.toString().trim(),
                             textEntryView.findViewById<EditText>(R.id.tv_functionality).text.toString().trim())
                     dialog.dismiss()
