@@ -8,7 +8,7 @@ import kotlinx.android.synthetic.main.card_idea.view.*
 import uk.co.markthomasstevenson.ideame.R
 import uk.co.markthomasstevenson.ideame.views.misc.BaseViewHolder
 
-class IdeaListAdapter(private val listener: (String) -> Unit, private val movedListener : (Int, Int) -> Unit) : RecyclerView.Adapter<IdeaListAdapter.IdeaViewHolder>() {
+class IdeaListAdapter(private val listener: (String) -> Unit) : RecyclerView.Adapter<IdeaListAdapter.IdeaViewHolder>() {
     private var items = ArrayList<IdeaListModel>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = IdeaViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.card_idea, parent, false))
@@ -20,11 +20,6 @@ class IdeaListAdapter(private val listener: (String) -> Unit, private val movedL
     fun updateItems(newItems: ArrayList<IdeaListModel>) {
         items = newItems
         notifyDataSetChanged()
-    }
-
-    fun moveItem(startPosition: Int, targetPosition: Int) {
-        movedListener(startPosition, targetPosition)
-        notifyItemMoved(startPosition, targetPosition)
     }
 
     class IdeaViewHolder(itemView: View) : BaseViewHolder(itemView) {

@@ -23,6 +23,11 @@ class FunctionalityAdapter(private val viewModel: IdeaViewModel) : RecyclerView.
         items = newItems
     }
 
+    fun moveItem(startPosition: Int, targetPosition: Int) {
+        viewModel.updateFunctionalityOrder(viewModel.getClickedIdea()?:"", startPosition, targetPosition)
+        notifyItemMoved(startPosition, targetPosition)
+    }
+
     class FunctionalityViewHolder(itemView: View) : BaseViewHolder(itemView) {
         fun bind(item: FunctionalityListModel, viewModel: IdeaViewModel) = with(itemView) {
             usableId = item.id

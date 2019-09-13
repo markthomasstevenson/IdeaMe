@@ -44,7 +44,7 @@ class ViewIdeaFragment : Fragment() {
         recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.adapter = adapter
 
-        val itemTouchHelper = ItemTouchHelper(ComplexTouchHandler(context!!) {
+        val itemTouchHelper = ItemTouchHelper(ComplexTouchHandler(adapter, context!!) {
             viewModel.deleteFunctionality(it.usableId)
         })
         itemTouchHelper.attachToRecyclerView(recyclerView)

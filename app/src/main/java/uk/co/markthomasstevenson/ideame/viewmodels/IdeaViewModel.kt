@@ -102,7 +102,15 @@ class IdeaViewModel : ViewModel() {
         return editableIdea
     }
 
+    fun getClickedIdea(): String? {
+        return editableIdea.value
+    }
+
     fun deleteFunctionality(functionalityId: String) {
         realm.ideaDao().deleteFunctionality(functionalityId)
+    }
+
+    fun updateFunctionalityOrder(ideaId: String, startPosition: Int, targetPosition: Int) {
+        val funcs = getFunctionalities(ideaId)
     }
 }
